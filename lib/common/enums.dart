@@ -1,0 +1,1 @@
+enum DioClientType { TOKEN_DIO, DEFAULT_DIO, SSL_PINNED_DIO }
