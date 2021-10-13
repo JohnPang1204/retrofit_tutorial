@@ -9,7 +9,7 @@ import '../entities/grocery_tag_responses.dart';
 
 part 'aa_grocery_client.g.dart';
 
-@RestApi(baseUrl: '${AirAsiaGroceryApis.kProductionBaseUrl}')
+@RestApi(baseUrl: '${AirAsiaGroceryApis.kStagingBaseUrl}')
 abstract class AAGroceryClient {
   factory AAGroceryClient(Dio dio, {String? baseUrl}) = _AAGroceryClient;
 
@@ -25,10 +25,11 @@ abstract class AAGroceryClient {
     @Query('alcohol') int? alcohol,
   });
 
-  @GET("${AirAsiaGroceryApis.getMenuProduct}")
+  @GET("${AirAsiaGroceryApis.getProduct}")
   Future<GroceryMenuProductsResponse> getMenuProducts({
     @Query('category_tag_uuid') String? categoryTagUuid,
     @Query('category_uuid') String? categoryUuid,
+    @Query('tag_carousel_uuid') String? tagCarouselUuid,
     @Query('type_id') int typeId = 1,
     @Query('limit') int limit = 20,
     @Query('page') int? page = 1,

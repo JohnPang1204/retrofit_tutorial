@@ -1,8 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:retrofit_tutorial/airasia/carrefour_model/grocery_categories_details.dart';
 import 'package:retrofit_tutorial/airasia/entities/grocery_menu_products_response.dart';
+import 'package:retrofit_tutorial/airasia/interceptor/aa_grocery_carousel_interceptor.dart';
 import 'package:retrofit_tutorial/airasia/interceptor/aa_grocery_interceptor.dart';
 import 'package:retrofit_tutorial/airasia/mapper/categories_mapper.dart';
+import 'package:retrofit_tutorial/airasia/retrofit/aa_grocery_carousel_client.dart';
 import 'package:retrofit_tutorial/airasia/retrofit/aa_grocery_client.dart';
 import 'package:retrofit_tutorial/airasia/retrofit/airasia_error.dart';
 import 'package:retrofit_tutorial/common/response_wrapper.dart';
@@ -12,12 +14,17 @@ import 'aa_grocery_api_service_manager.dart';
 
 class AirAsiaGroceryRepository {
   late AAGroceryClient _groceryClient;
+  late AAGroceryCarouselClient _groceryCarouselClient;
 
   AirAsiaGroceryRepository() {
-    final _dio = AirAsiaGroceryApiServiceManager.instance.getDioClient();
+    final groceryDio = AirAsiaGroceryApiServiceManager.instance.getDioClient();
     AirAsiaGroceryApiServiceManager.instance
         .plugInterceptor(AirAsiaGroceryInterceptor());
-    _groceryClient = AAGroceryClient(_dio);
+    _groceryClient = AAGroceryClient(groceryDio);
+
+    final carouselDio = Dio();
+    carouselDio.interceptors.add(AirAsiaGroceryCarouselInterceptor());
+    _groceryCarouselClient = AAGroceryCarouselClient(carouselDio);
   }
 
   Future<ResponseWrapper<List<GroceryCategoriesDetails>>>
@@ -62,6 +69,16 @@ class AirAsiaGroceryRepository {
       final response = await _groceryClient.getProductFilters(
           categoryTagUuid: categoryId, filters: joinedFilters);
       return ResponseWrapper()..setData(response.data);
+    } on Exception catch (err) {
+      return ResponseWrapper()..setException(AirAsiaError(err));
+    }
+  }
+
+  Future<ResponseWrapper<List<String?>>> getCarouselIds() async {
+    try {
+      final response = await _groceryCarouselClient.getCarouselIds();
+      var carouselIds = response.entries!.map((e) => e.slug).toList();
+      return ResponseWrapper()..setData(carouselIds);
     } on Exception catch (err) {
       return ResponseWrapper()..setException(AirAsiaError(err));
     }

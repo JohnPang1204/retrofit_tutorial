@@ -8,7 +8,7 @@ part of 'aa_grocery_client.dart';
 
 class _AAGroceryClient implements AAGroceryClient {
   _AAGroceryClient(this._dio, {this.baseUrl}) {
-    baseUrl ??= 'https://bee.apiairasia.com';
+    baseUrl ??= 'https://api-bee.stgairasia.com';
   }
 
   final Dio _dio;
@@ -60,6 +60,7 @@ class _AAGroceryClient implements AAGroceryClient {
   Future<GroceryMenuProductsResponse> getMenuProducts(
       {categoryTagUuid,
       categoryUuid,
+      tagCarouselUuid,
       typeId = 1,
       limit = 20,
       page = 1,
@@ -70,6 +71,7 @@ class _AAGroceryClient implements AAGroceryClient {
     final queryParameters = <String, dynamic>{
       r'category_tag_uuid': categoryTagUuid,
       r'category_uuid': categoryUuid,
+      r'tag_carousel_uuid': tagCarouselUuid,
       r'type_id': typeId,
       r'limit': limit,
       r'page': page,

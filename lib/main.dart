@@ -31,8 +31,8 @@ class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
 
   Future<void> _incrementCounter() async {
-    var productCount = await AirAsiaGroceryRepository()
-        .getProductsCount(categoryId: '79cf0f76-1f40-4797-853b-bc91649e5fc4');
+    // var productCount = await AirAsiaGroceryRepository()
+    //     .getProductsCount(categoryId: '79cf0f76-1f40-4797-853b-bc91649e5fc4');
 
     // print('[John] ${productCount}');
     //
@@ -43,10 +43,12 @@ class _MyHomePageState extends State<MyHomePage> {
     // //
     // print('[John] ${response.getData.toString()}');
 
+    // var response =  await AirAsiaGroceryRepository()
+    //     .getProductFilters(categoryId: '79cf0f76-1f40-4797-853b-bc91649e5fc4');
 
-    var response =  await AirAsiaGroceryRepository()
-        .getProductFilters(categoryId: '79cf0f76-1f40-4797-853b-bc91649e5fc4');
+   var testing =   await AirAsiaGroceryRepository().getCarouselIds();
 
+   var asd = testing;
 
   }
 
