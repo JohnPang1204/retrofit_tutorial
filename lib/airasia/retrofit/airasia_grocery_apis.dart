@@ -1,5 +1,6 @@
 class AirAsiaGroceryApis {
   static const String kStagingBaseUrl = 'https://api-bee.stgairasia.com';
+  static const String kProductionBaseUrl = 'https://bee.apiairasia.com';
 
   static const getTags = '/menu/v1/tags';
 
@@ -9,6 +10,5 @@ class AirAsiaGroceryApis {
 
 
   static const getProductFilters = '/menu/v1/products-filters';
-
 
 }

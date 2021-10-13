@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
+import 'package:retrofit_tutorial/airasia/carrefour_model/grocery_categories_details.dart';
 import 'package:retrofit_tutorial/airasia/entities/grocery_menu_products_response.dart';
 import 'package:retrofit_tutorial/airasia/interceptor/aa_grocery_interceptor.dart';
 import 'package:retrofit_tutorial/airasia/mapper/categories_mapper.dart';
-import 'package:retrofit_tutorial/airasia/model/grocery_categories_details.dart';
 import 'package:retrofit_tutorial/airasia/retrofit/aa_grocery_client.dart';
 import 'package:retrofit_tutorial/airasia/retrofit/airasia_error.dart';
 import 'package:retrofit_tutorial/common/response_wrapper.dart';

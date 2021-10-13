@@ -8,7 +8,7 @@ part of 'aa_grocery_client.dart';
 
 class _AAGroceryClient implements AAGroceryClient {
   _AAGroceryClient(this._dio, {this.baseUrl}) {
-    baseUrl ??= 'https://api-bee.stgairasia.com';
+    baseUrl ??= 'https://bee.apiairasia.com';
   }
 
   final Dio _dio;
@@ -32,10 +32,15 @@ class _AAGroceryClient implements AAGroceryClient {
 
   @override
   Future<dynamic> getProductsCount(
-      {required categoryTagUuid, typeId = 1, multipleCategory, alcohol}) async {
+      {categoryTagUuid,
+      categoryUuid,
+      typeId = 1,
+      multipleCategory,
+      alcohol}) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'category_tag_uuid': categoryTagUuid,
+      r'category_uuid': categoryUuid,
       r'type_id': typeId,
       r'multiple_category': multipleCategory,
       r'alcohol': alcohol
@@ -53,20 +58,24 @@ class _AAGroceryClient implements AAGroceryClient {
 
   @override
   Future<GroceryMenuProductsResponse> getMenuProducts(
-      {required categoryTagUuid,
+      {categoryTagUuid,
+      categoryUuid,
       typeId = 1,
       limit = 20,
-      page,
+      page = 1,
       multipleCategory,
-      alcohol}) async {
+      alcohol,
+      storeUuids}) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'category_tag_uuid': categoryTagUuid,
+      r'category_uuid': categoryUuid,
       r'type_id': typeId,
       r'limit': limit,
       r'page': page,
       r'multiple_category': multipleCategory,
-      r'alcohol': alcohol
+      r'alcohol': alcohol,
+      r'store_uuids': storeUuids
     };
     queryParameters.removeWhere((k, v) => v == null);
     final _data = <String, dynamic>{};
@@ -81,8 +90,9 @@ class _AAGroceryClient implements AAGroceryClient {
   }
 
   @override
-  Future<dynamic> getProductFilters(
-      {required categoryTagUuid,
+  Future<GroceryProductFiltersResponse> getProductFilters(
+      {categoryTagUuid,
+      categoryUuid,
       required filters,
       typeId = 1,
       multipleCategory,
@@ -90,6 +100,7 @@ class _AAGroceryClient implements AAGroceryClient {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'category_tag_uuid': categoryTagUuid,
+      r'category_uuid': categoryUuid,
       r'filters': filters,
       r'type_id': typeId,
       r'multiple_category': multipleCategory,
@@ -97,12 +108,13 @@ class _AAGroceryClient implements AAGroceryClient {
     };
     queryParameters.removeWhere((k, v) => v == null);
     final _data = <String, dynamic>{};
-    final _result = await _dio.fetch(_setStreamType<dynamic>(
-        Options(method: 'GET', headers: <String, dynamic>{}, extra: _extra)
-            .compose(_dio.options, '/menu/v1/products-filters',
-                queryParameters: queryParameters, data: _data)
-            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = _result.data;
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<GroceryProductFiltersResponse>(
+            Options(method: 'GET', headers: <String, dynamic>{}, extra: _extra)
+                .compose(_dio.options, '/menu/v1/products-filters',
+                    queryParameters: queryParameters, data: _data)
+                .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = GroceryProductFiltersResponse.fromJson(_result.data!);
     return value;
   }
 
