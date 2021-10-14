@@ -9,7 +9,7 @@ import '../entities/grocery_tag_responses.dart';
 
 part 'aa_grocery_client.g.dart';
 
-@RestApi(baseUrl: '${AirAsiaGroceryApis.kStagingBaseUrl}')
+@RestApi(baseUrl: '')
 abstract class AAGroceryClient {
   factory AAGroceryClient(Dio dio, {String? baseUrl}) = _AAGroceryClient;
 

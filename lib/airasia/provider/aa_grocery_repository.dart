@@ -7,6 +7,7 @@ import 'package:retrofit_tutorial/airasia/mapper/categories_mapper.dart';
 import 'package:retrofit_tutorial/airasia/retrofit/aa_grocery_carousel_client.dart';
 import 'package:retrofit_tutorial/airasia/retrofit/aa_grocery_client.dart';
 import 'package:retrofit_tutorial/airasia/retrofit/airasia_error.dart';
+import 'package:retrofit_tutorial/airasia/retrofit/airasia_grocery_apis.dart';
 import 'package:retrofit_tutorial/common/response_wrapper.dart';
 
 import '../entities/grocery_tag_responses.dart';
@@ -20,7 +21,7 @@ class AirAsiaGroceryRepository {
     final groceryDio = AirAsiaGroceryApiServiceManager.instance.getDioClient();
     AirAsiaGroceryApiServiceManager.instance
         .plugInterceptor(AirAsiaGroceryInterceptor());
-    _groceryClient = AAGroceryClient(groceryDio);
+    _groceryClient = AAGroceryClient(groceryDio,baseUrl: '${AirAsiaGroceryApis.kStagingBaseUrl}');
 
     final carouselDio = Dio();
     carouselDio.interceptors.add(AirAsiaGroceryCarouselInterceptor());

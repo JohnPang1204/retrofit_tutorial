@@ -7,9 +7,7 @@ part of 'aa_grocery_client.dart';
 // **************************************************************************
 
 class _AAGroceryClient implements AAGroceryClient {
-  _AAGroceryClient(this._dio, {this.baseUrl}) {
-    baseUrl ??= 'https://api-bee.stgairasia.com';
-  }
+  _AAGroceryClient(this._dio, {this.baseUrl});
 
   final Dio _dio;
 
