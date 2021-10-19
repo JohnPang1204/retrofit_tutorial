@@ -17,7 +17,9 @@ class AirAsiaGroceryInterceptor implements InterceptorContract {
       kXClientId: '4415a5de-bb03-4cd7-b614-4b699ae83789',
       kXPlatform: 'WEBDESKTOP',
       kXChannel: '1',
-      kXLang: 'en'
+      kXLang: 'en',
+      kDeviceId: '4415a5de-bb03-4cd7-b614-4b699ae83789',
+      kDeviceType: 'phone',
     });
 
     return handler.next(options);
@@ -32,5 +34,7 @@ class AirAsiaGroceryInterceptor implements InterceptorContract {
   final String kXPlatform = 'X-PLATFORM';
   final String kXChannel = 'X-CHANNEL';
   final String kXClientId = 'X-CLIENT-ID';
+  final String kDeviceId = 'X-DEVICE-ID';
+  final String kDeviceType = 'X-DEVICE-TYPE';
   final String kXLang = 'X-LANG';
 }

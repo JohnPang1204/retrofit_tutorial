@@ -33,22 +33,15 @@ class _MyHomePageState extends State<MyHomePage> {
   Future<void> _incrementCounter() async {
     // var productCount = await AirAsiaGroceryRepository()
     //     .getProductsCount(categoryId: '79cf0f76-1f40-4797-853b-bc91649e5fc4');
-
-    // print('[John] ${productCount}');
-    //
     // var response =  await AirAsiaGroceryRepository()
     //     .getMenuProducts(categoryId: '79cf0f76-1f40-4797-853b-bc91649e5fc4');
-    //
-    // var list = response.getData;
-    // //
-    // print('[John] ${response.getData.toString()}');
-
     // var response =  await AirAsiaGroceryRepository()
     //     .getProductFilters(categoryId: '79cf0f76-1f40-4797-853b-bc91649e5fc4');
-
-   var testing =   await AirAsiaGroceryRepository().getCarouselIds();
-
-   var asd = testing;
+   // var testing =   await AirAsiaGroceryRepository().getStoreDetails(storeSlug: 'supreme-frozen');
+   // var testing2 =   await AirAsiaGroceryRepository().getStoreProducts(storeUuids: '0eb81e95-3448-11eb-b563-0674d6a6f416');
+    // var testing2 =   await AirAsiaGroceryRepository().getProductDetails(productSlug: 'test-prod-3', storeUuids: '0eb81e95-3448-11eb-b563-0674d6a6f416');
+    // var testing2 =   await AirAsiaGroceryRepository().getProductTags(productUuid: '5cab64a5-25b2-4308-b965-14de1d847b5a');
+    var testing2 =   await AirAsiaGroceryRepository().getSimilarProducts(productUuid: '5cab64a5-25b2-4308-b965-14de1d847b5a');
 
   }
 

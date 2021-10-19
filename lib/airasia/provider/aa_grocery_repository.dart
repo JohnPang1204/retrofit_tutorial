@@ -1,6 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:retrofit_tutorial/airasia/carrefour_model/grocery_categories_details.dart';
 import 'package:retrofit_tutorial/airasia/entities/grocery_menu_products_response.dart';
+import 'package:retrofit_tutorial/airasia/entities/grocery_product_details.dart';
+import 'package:retrofit_tutorial/airasia/entities/grocery_similar_products.dart';
+import 'package:retrofit_tutorial/airasia/entities/grocery_store_details.dart';
+import 'package:retrofit_tutorial/airasia/entities/grocery_store_products.dart';
 import 'package:retrofit_tutorial/airasia/interceptor/aa_grocery_carousel_interceptor.dart';
 import 'package:retrofit_tutorial/airasia/interceptor/aa_grocery_interceptor.dart';
 import 'package:retrofit_tutorial/airasia/mapper/categories_mapper.dart';
@@ -90,4 +94,62 @@ class AirAsiaGroceryRepository {
       return ResponseWrapper()..setException(AirAsiaError(err));
     }
   }
+
+  Future<ResponseWrapper<StoreDetails?>> getStoreDetails(
+      {required String storeSlug}) async {
+    try {
+      final response = await _groceryClient.getStoreDetails(storeSlug);
+      return ResponseWrapper()..setData(response.data);
+    } on Exception catch (err) {
+      return ResponseWrapper()..setException(AirAsiaError(err));
+    }
+  }
+
+  Future<ResponseWrapper<List<StoreProduct>?>> getStoreProducts(
+      {required String storeUuids}) async {
+    try {
+      final response =
+          await _groceryClient.getStoreProducts(storeUuids: storeUuids);
+      return ResponseWrapper()..setData(response.data);
+    } on Exception catch (err) {
+      return ResponseWrapper()..setException(AirAsiaError(err));
+    }
+  }
+
+  Future<ResponseWrapper<ProductDetails?>> getProductDetails(
+      {required String productSlug, String? storeUuids}) async {
+    try {
+      final response = await _groceryClient.getProductDetails(
+          productSlug: productSlug, storeUuid: storeUuids);
+      return ResponseWrapper()..setData(response.data);
+    } on Exception catch (err) {
+      return ResponseWrapper()..setException(AirAsiaError(err));
+    }
+  }
+
+
+  Future<ResponseWrapper<List<SimilarProduct>?>> getSimilarProducts(
+      {required String productUuid}) async {
+    try {
+      final response = await _groceryClient.getSimilarProduct(
+          productUuid: productUuid);
+      return ResponseWrapper()..setData(response.data);
+    } on Exception catch (err) {
+      return ResponseWrapper()..setException(AirAsiaError(err));
+    }
+  }
+
+
+  Future<ResponseWrapper<dynamic>> getProductTags(
+      {required String productUuid}) async {
+    try {
+      final response = await _groceryClient.getTagsByProduct(
+          productUuid: productUuid);
+      return ResponseWrapper()..setData(response);
+    } on Exception catch (err) {
+      return ResponseWrapper()..setException(AirAsiaError(err));
+    }
+  }
+
+
 }

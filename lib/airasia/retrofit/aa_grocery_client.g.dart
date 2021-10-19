@@ -118,6 +118,101 @@ class _AAGroceryClient implements AAGroceryClient {
     return value;
   }
 
+  @override
+  Future<StoreDetailsResponse> getStoreDetails(storeSlug) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<StoreDetailsResponse>(
+            Options(method: 'GET', headers: <String, dynamic>{}, extra: _extra)
+                .compose(_dio.options, '/store/v1/store/$storeSlug',
+                    queryParameters: queryParameters, data: _data)
+                .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = StoreDetailsResponse.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<StoreProductsResponse> getStoreProducts(
+      {storeUuids, limit = 7, page = 1, typeId = 1, multipleCategory}) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'store_uuids': storeUuids,
+      r'limit': limit,
+      r'page': page,
+      r'type_id': typeId,
+      r'multiple_category': multipleCategory
+    };
+    queryParameters.removeWhere((k, v) => v == null);
+    final _data = <String, dynamic>{};
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<StoreProductsResponse>(
+            Options(method: 'GET', headers: <String, dynamic>{}, extra: _extra)
+                .compose(_dio.options, '/menu/v1/products',
+                    queryParameters: queryParameters, data: _data)
+                .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = StoreProductsResponse.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<ProductDetailsResponse> getProductDetails(
+      {required productSlug, storeUuid, typeId = 1}) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'store_uuid': storeUuid,
+      r'type_id': typeId
+    };
+    queryParameters.removeWhere((k, v) => v == null);
+    final _data = <String, dynamic>{};
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<ProductDetailsResponse>(Options(
+                method: 'GET', headers: <String, dynamic>{}, extra: _extra)
+            .compose(
+                _dio.options, '/menu/v1/product-detail-by-slug/$productSlug',
+                queryParameters: queryParameters, data: _data)
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = ProductDetailsResponse.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<SimilarProductsResponse> getSimilarProduct(
+      {required productUuid, limit = 10, page = 1, typeId = 1}) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'code': productUuid,
+      r'limit': limit,
+      r'page': page,
+      r'type_id': typeId
+    };
+    queryParameters.removeWhere((k, v) => v == null);
+    final _data = <String, dynamic>{};
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<SimilarProductsResponse>(
+            Options(method: 'GET', headers: <String, dynamic>{}, extra: _extra)
+                .compose(_dio.options, '/menu/v1/similar',
+                    queryParameters: queryParameters, data: _data)
+                .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = SimilarProductsResponse.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<dynamic> getTagsByProduct({required productUuid}) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    final _result = await _dio.fetch(_setStreamType<dynamic>(
+        Options(method: 'GET', headers: <String, dynamic>{}, extra: _extra)
+            .compose(_dio.options, '/menu/v1/tags-by-product/$productUuid',
+                queryParameters: queryParameters, data: _data)
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = _result.data;
+    return value;
+  }
+
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {
     if (T != dynamic &&
         !(requestOptions.responseType == ResponseType.bytes ||
