@@ -9,9 +9,10 @@ class AirAsiaGroceryApis {
 }
 
 class AirAsiaCarouselApis{
-  static const String kStagingBaseUrl = 'https://cdn.contentstack.io';
-  static const String kProductionBaseUrl = 'https://cdn.contentstack.io';
-
-
+  static const String kBaseUrl = 'https://cdn.contentstack.io';
   static const getCarouselIds = '/v3/content_types/of_home_tags/entries';
+
+  static const apiKey = 'blt3ada34ac485961fd';
+  static const stagingAccessToken = 'cse7bbd598b0db73f52c33e6da';
+  static const prodAccessToken = 'cs88d29968cf04762fd2a4fea1';
 }

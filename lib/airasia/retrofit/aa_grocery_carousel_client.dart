@@ -10,7 +10,7 @@ import '../entities/grocery_tag_responses.dart';
 
 part 'aa_grocery_carousel_client.g.dart';
 
-@RestApi(baseUrl: '${AirAsiaCarouselApis.kStagingBaseUrl}')
+@RestApi(baseUrl: '${AirAsiaCarouselApis.kBaseUrl}')
 abstract class AAGroceryCarouselClient {
   factory AAGroceryCarouselClient(Dio dio, {String? baseUrl}) = _AAGroceryCarouselClient;
 

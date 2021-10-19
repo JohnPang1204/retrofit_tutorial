@@ -2,6 +2,9 @@ import 'package:dio/dio.dart';
 import 'package:dio/src/dio_error.dart';
 import 'package:dio/src/options.dart';
 import 'package:dio/src/response.dart';
+import 'package:retrofit_tutorial/airasia/retrofit/airasia_grocery_apis.dart';
+import 'package:retrofit_tutorial/common/constants.dart';
+import 'package:retrofit_tutorial/common/enums.dart';
 import 'package:retrofit_tutorial/common/interceptor_contract.dart';
 
 class AirAsiaGroceryCarouselInterceptor implements InterceptorContract {
@@ -25,12 +28,17 @@ class AirAsiaGroceryCarouselInterceptor implements InterceptorContract {
   }
 
   void addDefaultQueryParams(RequestOptions options) {
+    var env = kEnvironmentType;
+
     final data = options.queryParameters;
-    data['environment'] = 'dev';
+    data['environment'] =
+    env == EnvironmentType.Development ? 'dev' : 'production';
     data['locale'] = 'en-gb';
     data['asc'] = 'sequence';
-    data['api_key'] = 'blt3ada34ac485961fd';
-    data['access_token'] = 'cse7bbd598b0db73f52c33e6da';
+    data['api_key'] = AirAsiaCarouselApis.apiKey;
+    data['access_token'] = env == EnvironmentType.Development
+        ? AirAsiaCarouselApis.stagingAccessToken
+        : AirAsiaCarouselApis.prodAccessToken;
   }
 
 
