@@ -11,6 +11,7 @@ class AirAsiaGroceryApis {
   static const getProductDetails = '/menu/v1/product-detail-by-slug/{productSlug}';
   static const getSimilarProducts = '/menu/v1/similar';
   static const getTagsByProduct = '/menu/v1/tags-by-product/{productUuid}';
+  static const searchProduct = '/menu/v1/products-aa';
 }
 
 class AirAsiaCarouselApis{

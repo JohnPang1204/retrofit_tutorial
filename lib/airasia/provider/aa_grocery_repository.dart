@@ -166,5 +166,14 @@ class AirAsiaGroceryRepository {
       return ResponseWrapper()..setException(AirAsiaError(err));
     }
   }
+
+  Future<ResponseWrapper<List<AAGroceryProducts>?>> searchProduct({required String keyword}) async {
+    try {
+      final response = await _groceryClient.searchProduct(key: keyword);
+      return ResponseWrapper()..setData(response.data);
+    } on Exception catch (err) {
+      return ResponseWrapper()..setException(AirAsiaError(err));
+    }
+  }
 }
 

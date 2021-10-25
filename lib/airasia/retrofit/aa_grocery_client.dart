@@ -88,4 +88,14 @@ abstract class AAGroceryClient {
     @Path() required String productUuid,
   });
 
+
+  @GET("${AirAsiaGroceryApis.searchProduct}")
+  Future<GroceryMenuProductsResponse> searchProduct({
+    @Query('key') required String key,
+    @Query('limit') int limit = 20,
+    @Query('page') int? page = 1,
+    @Query('type_id') int typeId = 1,
+    @Query('multiple_category') int? multipleCategory,
+    @Query('alcohol') int? alcohol,
+  });
 }

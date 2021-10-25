@@ -213,6 +213,35 @@ class _AAGroceryClient implements AAGroceryClient {
     return value;
   }
 
+  @override
+  Future<GroceryMenuProductsResponse> searchProduct(
+      {required key,
+      limit = 20,
+      page = 1,
+      typeId = 1,
+      multipleCategory,
+      alcohol}) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'key': key,
+      r'limit': limit,
+      r'page': page,
+      r'type_id': typeId,
+      r'multiple_category': multipleCategory,
+      r'alcohol': alcohol
+    };
+    queryParameters.removeWhere((k, v) => v == null);
+    final _data = <String, dynamic>{};
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<GroceryMenuProductsResponse>(
+            Options(method: 'GET', headers: <String, dynamic>{}, extra: _extra)
+                .compose(_dio.options, '/menu/v1/products-aa',
+                    queryParameters: queryParameters, data: _data)
+                .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = GroceryMenuProductsResponse.fromJson(_result.data!);
+    return value;
+  }
+
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {
     if (T != dynamic &&
         !(requestOptions.responseType == ResponseType.bytes ||
