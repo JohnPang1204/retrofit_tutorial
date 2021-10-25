@@ -3,6 +3,8 @@ class GroceryCategoriesDetails extends Object {
 
   String? name;
 
+  int? type;
+
   GroceryImages? thumbnail;
 
   GroceryImages? mediaMobile;
@@ -16,6 +18,7 @@ class GroceryCategoriesDetails extends Object {
   GroceryCategoriesDetails({
     this.id,
     this.name,
+    this.type,
     this.thumbnail,
     this.mediaMobile,
     this.mediaWeb,

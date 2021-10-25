@@ -1,9 +1,13 @@
 import 'package:retrofit_tutorial/airasia/carrefour_model/grocery_categories_details.dart';
 import 'package:retrofit_tutorial/airasia/carrefour_model/grocery_products.dart';
 import 'package:retrofit_tutorial/airasia/carrefour_model/product.dart';
+import 'package:retrofit_tutorial/airasia/carrefour_model/product_detail.dart';
 import 'package:retrofit_tutorial/airasia/carrefour_model/search.dart';
 import 'package:retrofit_tutorial/airasia/entities/grocery_menu_products_response.dart';
+import 'package:retrofit_tutorial/airasia/entities/grocery_product_details.dart';
 import 'package:retrofit_tutorial/airasia/entities/grocery_product_filters.dart';
+import 'package:retrofit_tutorial/airasia/entities/grocery_similar_products.dart';
+import 'package:retrofit_tutorial/airasia/entities/grocery_store_products.dart';
 import 'package:retrofit_tutorial/airasia/entities/grocery_tag_responses.dart';
 
 
@@ -32,12 +36,15 @@ List<GroceryCategoriesDetails> mapGroceryTagResponseToEntity(
 
         categories.add(GroceryCategoriesDetails(
             id: element.uuid,
+            type: element.type,
             name: element.name,
             subcategories: element.children == null ? null : subcategories));
       });
 
       return categories;
     } on Exception catch (err) {
+      // LogUtil()
+      //     .printLog(tag: 'AirAsiaUserDetailMapper', message: err.toString());
       rethrow;
     }
   }
@@ -60,8 +67,8 @@ List<GroceryCategoriesDetails>? _getSubCategoriesList(
   return subcategories;
 }
 
-GroceryProductsFromCategories mapGroceryMenuProductsToEntity(
-    List<GroceryMenuProducts>? aaMenusProducts,
+GroceryProductsFromCategories mapAAGroceryProductsToCategoriesProducts(
+    List<AAGroceryProducts>? aaMenusProducts,
     List<ProductFiltersData>? productsFilters,
     int? totalResults,
     int? currentPage) {
@@ -79,31 +86,56 @@ GroceryProductsFromCategories mapGroceryMenuProductsToEntity(
       totalPages: totaPages);
 
   if (aaMenusProducts != null) {
-    var groceryProducts = <GroceryProduct>[];
-
-    aaMenusProducts.forEach((element) {
-      var product = GroceryProduct();
-      product.name = element.name;
-      product.onlineName = element.name;
-      product.images = [Images(format: '', imageType: '', url: element.image)];
-      product.quantity = element.quantity?.toDouble();
-      product.stock = Stock(
-          isAvailable: (element.quantity != null && element.quantity! > 0));
-      product.price = Price(
-          price: element.price,
-          finalPrice: Price(value: element.minSubPrice),
-          differenceInPercentForPromo:
-          (element.discountPercentage != '-Infinity')
-              ? double.parse(element.discountPercentage ?? '0')
-              : null,
-          discountPrice: Price(value: element.discountPrice));
-      groceryProducts.add(product);
-    });
-
-    categoryProducts.products = groceryProducts;
+    categoryProducts.products =
+        mapAAGroceryProductsToGroceryProducts(aaMenusProducts);
   }
 
   return categoryProducts;
+}
+
+List<GroceryProduct> mapAAGroceryProductsToGroceryProducts(
+    List<AAGroceryProducts>? aaMenusProducts) {
+  var groceryProducts = <GroceryProduct>[];
+
+  if (aaMenusProducts == null) {
+    return groceryProducts;
+  }
+
+  aaMenusProducts.forEach((element) {
+    var product = GroceryProduct();
+    var quantityOfOptionGroups = element.optionGroups == null
+        ? <int>[]
+        : element.optionGroups!.map((e) => e.quantity ?? 0).toList();
+    var totalOfQuantity = quantityOfOptionGroups.isNotEmpty
+        ? quantityOfOptionGroups.reduce((a, b) => a + b)
+        : 0;
+    product.code = element.uuid;
+    product.name = element.name;
+    product.onlineName = element.name;
+    product.description = element.description;
+    product.slug = element.slug;
+    product.productType = 'food';
+    product.mainOffer = MainOffer(
+        shopCode: element.store?.uuid,
+        shopName: element.store?.name,
+        shopSlug: element.store?.slug);
+    product.images = [Images(format: '', imageType: '', url: element.image)];
+    product.quantity = totalOfQuantity.toDouble();
+    product.stock = Stock(isAvailable: totalOfQuantity > 0);
+    product.price = Price(
+        price: element.price,
+        finalPrice: Price(value: element.minSubPrice),
+        differenceInPercentForPromo:
+        (element.discountPrice != null && element.discountPrice != 0)
+            ? double.parse(element.discountPercentage ?? '0')
+            : null,
+        originalPrice: Price(value: element.discountPrice),
+        discountPrice: Price(value: element.discountPrice));
+
+    groceryProducts.add(product);
+  });
+
+  return groceryProducts;
 }
 
 List<Facets>? mapProductFiltersToEntity(
@@ -128,4 +160,148 @@ List<Facets>? mapProductFiltersToEntity(
   });
 
   return facets;
+}
+
+GroceryProductFullDetail? mapProductDetailsToEntity(ProductDetails? detail) {
+  if (detail == null) return null;
+
+  var fullDetail = GroceryProductFullDetail();
+  var productDetail = GroceryProductDetail();
+  var extra = ExtraProductDetails();
+  var quantityOfOptionGroups = detail.optionGroups == null
+      ? <int>[]
+      : detail.optionGroups!.map((e) => e.quantity ?? 0).toList();
+  var totalOfQuantity = quantityOfOptionGroups.isNotEmpty
+      ? quantityOfOptionGroups.reduce((a, b) => a + b)
+      : 0;
+  productDetail.code = detail.uuid;
+  productDetail.name = detail.name;
+  productDetail.marketingText = detail.description;
+  productDetail.onlineName = detail.name;
+  productDetail.productType = 'food';
+  productDetail.images = [
+    ProductDetailImages(format: '', imageType: '', url: detail.image)
+  ];
+  productDetail.price = ProductDetailPrice(
+      value: detail.price,
+      originalPrice: ProductDetailFinalPrice(value: detail.discountPrice),
+      finalPrice: ProductDetailFinalPrice(value: detail.price),
+      differenceInPercentForPromo:
+      (detail.discountPrice != null && detail.discountPrice != 0)
+          ? (double.parse(detail.discountPercentage ?? '0').round())
+          : null);
+
+  productDetail.stock = ProductDetailStock(
+      isAvailable: totalOfQuantity > 0,
+      maxQuantity: totalOfQuantity,
+      stockLevelStatus: totalOfQuantity > 0 ? 'In Stock' : 'OUT OF STOCK');
+
+  productDetail.optionGroups = detail.optionGroups;
+  extra.images = detail.gallery != null
+      ? detail.gallery!
+      .map((e) => GroceryProductImages(
+    extraSmall: e.url,
+    small: e.url,
+    medium: e.url,
+    large: e.url,
+    extraLarge: e.url,
+  ))
+      .toList()
+      : null;
+
+  fullDetail.groceryProductDetail = productDetail;
+  fullDetail.extraProductDetails = extra;
+  return fullDetail;
+}
+
+List<GroceryProduct> mapStoreProductsToEntity(
+    List<StoreProduct>? storeProducts) {
+  var groceryProducts = <GroceryProduct>[];
+
+  if (storeProducts == null || storeProducts.isEmpty) {
+    return groceryProducts;
+  }
+
+  storeProducts!.forEach((element) {
+    var product = GroceryProduct();
+    var quantityOfOptionGroups = element.optionGroups == null
+        ? <int>[]
+        : element.optionGroups!.map((e) => e.quantity ?? 0).toList();
+    var totalOfQuantity = quantityOfOptionGroups.isNotEmpty
+        ? quantityOfOptionGroups.reduce((a, b) => a + b)
+        : 0;
+    product.code = element.uuid;
+    product.name = element.name;
+    product.onlineName = element.name;
+    product.description = element.description;
+    product.slug = element.slug;
+    product.productType = 'food';
+    product.mainOffer = MainOffer(
+      shopCode: element.store?.uuid,
+      shopName: element.store?.name,
+      shopSlug: element.store?.slug,
+    );
+    product.images = [Images(format: '', imageType: '', url: element.image)];
+    product.quantity = totalOfQuantity.toDouble();
+    product.stock = Stock(isAvailable: (totalOfQuantity > 0));
+    product.price = Price(
+        price: element.price,
+        finalPrice: Price(value: element.minSubPrice),
+        differenceInPercentForPromo:
+        (element.discountPrice != null && element.discountPrice != 0)
+            ? double.parse(element.discountPercentage ?? '0')
+            : null,
+        originalPrice: Price(value: element.discountPrice),
+        discountPrice: Price(value: element.discountPrice));
+    groceryProducts.add(product);
+  });
+
+  return groceryProducts;
+}
+
+List<GroceryProduct> mapSimilarProductsToEntity(
+    List<SimilarProduct>? similarProducts) {
+  var groceryProducts = <GroceryProduct>[];
+
+
+    if (similarProducts == null || similarProducts.isEmpty) {
+
+      return groceryProducts;
+  }
+
+  similarProducts!.forEach((element) {
+    var product = GroceryProduct();
+    var quantityOfOptionGroups = element.optionGroups == null
+        ? <int>[]
+        : element.optionGroups!.map((e) => e.quantity ?? 0).toList();
+    var totalOfQuantity = quantityOfOptionGroups.isNotEmpty
+        ? quantityOfOptionGroups.reduce((a, b) => a + b)
+        : 0;
+    product.code = element.uuid;
+    product.name = element.name;
+    product.onlineName = element.name;
+    product.description = element.description;
+    product.slug = element.slug;
+    product.productType = 'food';
+    product.mainOffer = MainOffer(
+      shopCode: element.store?.uuid,
+      shopName: element.store?.name,
+      shopSlug: element.store?.slug,
+    );
+    product.images = [Images(format: '', imageType: '', url: element.image)];
+    product.quantity = totalOfQuantity.toDouble();
+    product.stock = Stock(isAvailable: totalOfQuantity > 0);
+    product.price = Price(
+        price: element.price,
+        finalPrice: Price(value: element.minSubPrice),
+        differenceInPercentForPromo:
+        (element.discountPrice != null && element.discountPrice != 0)
+            ? double.parse(element.discountPercentage ?? '0')
+            : null,
+        originalPrice: Price(value: element.discountPrice),
+        discountPrice: Price(value: element.discountPrice));
+    groceryProducts.add(product);
+  });
+
+  return groceryProducts;
 }

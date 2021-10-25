@@ -1,12 +1,12 @@
 class StoreProductsResponse {
   StoreProductsResponse({
-     this.code,
-     this.message,
-     this.data,
+    this.code,
+    this.message,
+    this.data,
   });
-   int? code;
-   String? message;
-   List<StoreProduct>? data;
+  int? code;
+  String? message;
+  List<StoreProduct>? data;
 
   StoreProductsResponse.fromJson(Map<String, dynamic> json){
     code = json['code'];
@@ -25,69 +25,69 @@ class StoreProductsResponse {
 
 class StoreProduct {
   StoreProduct({
-     this.uuid,
-     this.name,
-     this.slug,
-     this.sequence,
-     this.description,
+    this.uuid,
+    this.name,
+    this.slug,
+    this.sequence,
+    this.description,
     this.thumbnail,
-     this.image,
-     this.additionalTypeIds,
-     this.sku,
-     this.point,
-     this.price,
-     this.subPrice,
-     this.tax,
-     this.taxRate,
-     this.categoryType,
-     this.isCombo,
-     this.isAutocook,
-     this.isHalfAndHalf,
-     this.isComboHalf,
-     this.isMenuPointFreeDelivery,
-     this.currencyUuid,
-     this.discountPrice,
-     this.discountPercentage,
-     this.additionalDescription,
-     this.quantity,
-     this.minSubPrice,
-     this.freeLowestProduct,
-     this.deeplink,
+    this.image,
+    this.additionalTypeIds,
+    this.sku,
+    this.point,
+    this.price,
+    this.subPrice,
+    this.tax,
+    this.taxRate,
+    this.categoryType,
+    this.isCombo,
+    this.isAutocook,
+    this.isHalfAndHalf,
+    this.isComboHalf,
+    this.isMenuPointFreeDelivery,
+    this.currencyUuid,
+    this.discountPrice,
+    this.discountPercentage,
+    this.additionalDescription,
+    this.quantity,
+    this.minSubPrice,
+    this.freeLowestProduct,
+    this.deeplink,
   });
-   String? uuid;
-   String? name;
-   String? slug;
-   int? sequence;
-   String? description;
-   String? thumbnail;
-   String? image;
-   List<int>? additionalTypeIds;
-   String? sku;
-   int? point;
-   double? price;
+  String? uuid;
+  String? name;
+  String? slug;
+  int? sequence;
+  String? description;
+  String? thumbnail;
+  String? image;
+  List<int>? additionalTypeIds;
+  String? sku;
+  int? point;
+  double? price;
   double? subPrice;
-   int? tax;
-   int? taxRate;
-   Category? category;
-   ParentCategory? parentCategory;
-   String? categoryType;
-   int? isCombo;
-   List<int>? typeIds;
-   List<OptionGroups>? optionGroups;
-   int? isAutocook;
-   int? isHalfAndHalf;
-   int? isComboHalf;
-   List<Tags>? tags;
-   int? isMenuPointFreeDelivery;
-   String? currencyUuid;
-   Store? store;
+  int? tax;
+  int? taxRate;
+  Category? category;
+  ParentCategory? parentCategory;
+  String? categoryType;
+  int? isCombo;
+  List<int>? typeIds;
+  List<OptionGroups>? optionGroups;
+  int? isAutocook;
+  int? isHalfAndHalf;
+  int? isComboHalf;
+  List<Tags>? tags;
+  int? isMenuPointFreeDelivery;
+  String? currencyUuid;
+  Store? store;
   double? discountPrice;
-   String? discountPercentage;
-   String? additionalDescription;
-   int? quantity;
+  String? discountPercentage;
+  String? additionalDescription;
+  int? quantity;
   double? minSubPrice;
-   int? freeLowestProduct;
-   String? deeplink;
+  int? freeLowestProduct;
+  String? deeplink;
 
   StoreProduct.fromJson(Map<String, dynamic> json){
     uuid = json['uuid'];
@@ -161,11 +161,11 @@ class StoreProduct {
 
 class Category {
   Category({
-     this.uuid,
-     this.name,
+    this.uuid,
+    this.name,
   });
-   String? uuid;
-   String? name;
+  String? uuid;
+  String? name;
 
   Category.fromJson(Map<String, dynamic> json){
     uuid = json['uuid'];
@@ -182,13 +182,13 @@ class Category {
 
 class ParentCategory {
   ParentCategory({
-     this.uuid,
-     this.slug,
-     this.name,
+    this.uuid,
+    this.slug,
+    this.name,
   });
-   String? uuid;
-   String? slug;
-   String? name;
+  String? uuid;
+  String? slug;
+  String? name;
 
   ParentCategory.fromJson(Map<String, dynamic> json){
     uuid = json['uuid'];
@@ -207,31 +207,31 @@ class ParentCategory {
 
 class OptionGroups {
   OptionGroups({
-     this.uuid,
-     this.sku,
-     this.name,
-     this.sequence,
-     this.shortName,
-     this.thumbnail,
-     this.price,
-     this.subPrice,
-     this.tax,
-     this.taxRate,
-     this.description,
-     this.quantity,
+    this.uuid,
+    this.sku,
+    this.name,
+    this.sequence,
+    this.shortName,
+    this.thumbnail,
+    this.price,
+    this.subPrice,
+    this.tax,
+    this.taxRate,
+    this.description,
+    this.quantity,
   });
-   String? uuid;
-   String? sku;
-   String? name;
-   int? sequence;
-   String? shortName;
-   String? thumbnail;
-   double? price;
-   double? subPrice;
-   int? tax;
-   int? taxRate;
-   String? description;
-   int? quantity;
+  String? uuid;
+  String? sku;
+  String? name;
+  int? sequence;
+  String? shortName;
+  String? thumbnail;
+  double? price;
+  double? subPrice;
+  int? tax;
+  int? taxRate;
+  String? description;
+  int? quantity;
 
   OptionGroups.fromJson(Map<String, dynamic> json){
     uuid = json['uuid'];
@@ -269,15 +269,15 @@ class OptionGroups {
 
 class Tags {
   Tags({
-     this.uuid,
-     this.name,
-     this.image,
-     this.description,
+    this.uuid,
+    this.name,
+    this.image,
+    this.description,
   });
-   String? uuid;
-   String? name;
-   String? image;
-   String? description;
+  String? uuid;
+  String? name;
+  String? image;
+  String? description;
 
   Tags.fromJson(Map<String, dynamic> json){
     uuid = json['uuid'];
@@ -298,13 +298,13 @@ class Tags {
 
 class Store {
   Store({
-     this.uuid,
-     this.name,
-     this.slug,
+    this.uuid,
+    this.name,
+    this.slug,
   });
-   String? uuid;
-   String? name;
-   String? slug;
+  String? uuid;
+  String? name;
+  String? slug;
 
   Store.fromJson(Map<String, dynamic> json){
     uuid = json['uuid'];

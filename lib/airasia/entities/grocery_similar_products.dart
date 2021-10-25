@@ -1,58 +1,64 @@
 class SimilarProductsResponse {
   SimilarProductsResponse({
-     this.code,
-     this.message,
-     this.data,
+    this.code,
+    this.message,
+    this.data,
   });
+
   int? code;
   String? message;
   List<SimilarProduct>? data;
 
-  SimilarProductsResponse.fromJson(Map<String, dynamic> json){
+  SimilarProductsResponse.fromJson(Map<String, dynamic> json) {
     code = json['code'];
     message = json['message'];
-    data = List.from(json['data']).map((e)=>SimilarProduct.fromJson(e)).toList();
+    data = json['data'] != null
+        ? List.from(json['data'])
+        .map((e) => SimilarProduct.fromJson(e))
+        .toList()
+        : null;
   }
 
   Map<String, dynamic> toJson() {
     final _data = <String, dynamic>{};
     _data['code'] = code;
     _data['message'] = message;
-    _data['data'] = data?.map((e)=>e.toJson()).toList();
+    _data['data'] = data?.map((e) => e.toJson()).toList();
     return _data;
   }
 }
 
 class SimilarProduct {
   SimilarProduct({
-     this.uuid,
-     this.name,
-     this.slug,
-     this.sequence,
-     this.description,
-     this.thumbnail,
-     this.image,
-     this.sku,
-     this.point,
-     this.price,
-     this.subPrice,
-     this.tax,
-     this.taxRate,
-     this.categoryType,
-     this.isCombo,
-     this.isAutocook,
-     this.isHalfAndHalf,
-     this.isComboHalf,
-     this.isMenuPointFreeDelivery,
-     this.currencyUuid,
-     this.discountPrice,
-     this.discountPercentage,
-     this.additionalDescription,
-     this.quantity,
-     this.minSubPrice,
-     this.freeLowestProduct,
-     this.deeplink,
+    this.uuid,
+    this.name,
+    this.slug,
+    this.sequence,
+    this.description,
+    this.thumbnail,
+    this.image,
+    this.sku,
+    this.point,
+    this.price,
+    this.subPrice,
+    this.tax,
+    this.taxRate,
+    this.categoryType,
+    this.isCombo,
+    this.isAutocook,
+    this.isHalfAndHalf,
+    this.isComboHalf,
+    this.isMenuPointFreeDelivery,
+    this.currencyUuid,
+    this.discountPrice,
+    this.discountPercentage,
+    this.additionalDescription,
+    this.quantity,
+    this.minSubPrice,
+    this.freeLowestProduct,
+    this.deeplink,
   });
+
   String? uuid;
   String? name;
   String? slug;
@@ -88,7 +94,7 @@ class SimilarProduct {
   List<String>? storeCategoryUuids;
   String? deeplink;
 
-  SimilarProduct.fromJson(Map<String, dynamic> json){
+  SimilarProduct.fromJson(Map<String, dynamic> json) {
     uuid = json['uuid'];
     name = json['name'];
     slug = json['slug'];
@@ -96,11 +102,12 @@ class SimilarProduct {
     description = json['description'];
     thumbnail = json['thumbnail'];
     image = json['image'];
-    additionalTypeIds = List.castFrom<dynamic, int>(json['additional_type_ids']);
+    additionalTypeIds =
+        List.castFrom<dynamic, int>(json['additional_type_ids']);
     sku = json['sku'];
     point = json['point'];
-    price =  (json['price'] as num?)?.toDouble();
-    subPrice =  (json['sub_price'] as num?)?.toDouble();
+    price = (json['price'] as num?)?.toDouble();
+    subPrice = (json['sub_price'] as num?)?.toDouble();
     tax = json['tax'];
     taxRate = json['tax_rate'];
     category = Category.fromJson(json['category']);
@@ -108,20 +115,23 @@ class SimilarProduct {
     categoryType = json['category_type'];
     isCombo = json['is_combo'];
     typeIds = List.castFrom<dynamic, int>(json['type_ids']);
-    optionGroups = List.from(json['option_groups']).map((e)=>OptionGroups.fromJson(e)).toList();
+    optionGroups = List.from(json['option_groups'])
+        .map((e) => OptionGroups.fromJson(e))
+        .toList();
     isAutocook = json['is_autocook'];
     isHalfAndHalf = json['is_half_and_half'];
     isComboHalf = json['is_combo_half'];
     isMenuPointFreeDelivery = json['is_menu_point_free_delivery'];
     currencyUuid = json['currency_uuid'];
     store = Store.fromJson(json['store']);
-    discountPrice =  (json['discount_price'] as num?)?.toDouble();
+    discountPrice = (json['discount_price'] as num?)?.toDouble();
     discountPercentage = json['discount_percentage'];
     additionalDescription = json['additional_description'];
     quantity = json['quantity'];
-    minSubPrice =  (json['min_sub_price'] as num?)?.toDouble();
+    minSubPrice = (json['min_sub_price'] as num?)?.toDouble();
     freeLowestProduct = json['free_lowest_product'];
-    storeCategoryUuids = List.castFrom<dynamic, String>(json['store_category_uuids']);
+    storeCategoryUuids =
+        List.castFrom<dynamic, String>(json['store_category_uuids']);
     deeplink = json['deeplink'];
   }
 
@@ -146,7 +156,7 @@ class SimilarProduct {
     _data['category_type'] = categoryType;
     _data['is_combo'] = isCombo;
     _data['type_ids'] = typeIds;
-    _data['option_groups'] = optionGroups?.map((e)=>e.toJson()).toList();
+    _data['option_groups'] = optionGroups?.map((e) => e.toJson()).toList();
     _data['is_autocook'] = isAutocook;
     _data['is_half_and_half'] = isHalfAndHalf;
     _data['is_combo_half'] = isComboHalf;
@@ -167,13 +177,14 @@ class SimilarProduct {
 
 class Category {
   Category({
-     this.uuid,
-     this.name,
+    this.uuid,
+    this.name,
   });
+
   String? uuid;
   String? name;
 
-  Category.fromJson(Map<String, dynamic> json){
+  Category.fromJson(Map<String, dynamic> json) {
     uuid = json['uuid'];
     name = json['name'];
   }
@@ -188,15 +199,16 @@ class Category {
 
 class ParentCategory {
   ParentCategory({
-     this.uuid,
+    this.uuid,
     this.slug,
-     this.name,
+    this.name,
   });
+
   String? uuid;
   String? slug;
   String? name;
 
-  ParentCategory.fromJson(Map<String, dynamic> json){
+  ParentCategory.fromJson(Map<String, dynamic> json) {
     uuid = json['uuid'];
     slug = null;
     name = json['name'];
@@ -213,19 +225,20 @@ class ParentCategory {
 
 class OptionGroups {
   OptionGroups({
-     this.uuid,
-     this.sku,
-     this.name,
-     this.sequence,
-     this.shortName,
-     this.thumbnail,
-     this.price,
-     this.subPrice,
-     this.tax,
-     this.taxRate,
-     this.description,
-     this.quantity,
+    this.uuid,
+    this.sku,
+    this.name,
+    this.sequence,
+    this.shortName,
+    this.thumbnail,
+    this.price,
+    this.subPrice,
+    this.tax,
+    this.taxRate,
+    this.description,
+    this.quantity,
   });
+
   String? uuid;
   String? sku;
   String? name;
@@ -239,15 +252,15 @@ class OptionGroups {
   String? description;
   int? quantity;
 
-  OptionGroups.fromJson(Map<String, dynamic> json){
+  OptionGroups.fromJson(Map<String, dynamic> json) {
     uuid = json['uuid'];
     sku = json['sku'];
     name = json['name'];
     sequence = json['sequence'];
     shortName = json['short_name'];
     thumbnail = json['thumbnail'];
-    price =  (json['price'] as num?)?.toDouble();
-    subPrice =  (json['sub_price'] as num?)?.toDouble();
+    price = (json['price'] as num?)?.toDouble();
+    subPrice = (json['sub_price'] as num?)?.toDouble();
     tax = json['tax'];
     taxRate = json['tax_rate'];
     description = json['description'];
@@ -272,18 +285,18 @@ class OptionGroups {
   }
 }
 
-
 class Store {
   Store({
-     this.uuid,
-     this.name,
-     this.slug,
+    this.uuid,
+    this.name,
+    this.slug,
   });
+
   String? uuid;
   String? name;
   String? slug;
 
-  Store.fromJson(Map<String, dynamic> json){
+  Store.fromJson(Map<String, dynamic> json) {
     uuid = json['uuid'];
     name = json['name'];
     slug = json['slug'];

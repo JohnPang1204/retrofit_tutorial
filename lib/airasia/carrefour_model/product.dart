@@ -46,6 +46,8 @@ class GroceryProduct {
   MainOffer? mainOffer;
   List<GroceryOffers>? offers;
   String? bulkMessage;
+  // This is AA grocer entity and it used for retriving product details
+  String? slug;
 
   GroceryProduct({
     this.availableForPickup,
@@ -94,6 +96,7 @@ class GroceryProduct {
     this.mainOffer,
     this.bulkMessage,
     this.offers,
+    this.slug
   });
 }
 
@@ -159,11 +162,15 @@ class Stock {
 class MainOffer {
   String? code;
   String? shopName;
+  String? shopSlug; // This is AA grocer entity and it used for retriving merchant details
+  String? shopCode; // This is AA grocer entity and it used for retriving merchant details
   bool? isOffer;
   double? quantity;
   MainOffer({
     this.code,
     this.shopName,
+    this.shopSlug,
+    this.shopCode,
     this.isOffer,
     this.quantity,
   });

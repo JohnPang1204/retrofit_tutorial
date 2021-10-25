@@ -83,7 +83,7 @@ class ProductDetails {
   List<CategoryMultilevels>? categoryMultilevels;
   String? categoryType;
   List<int>? typeIds;
-  List<OptionGroups>? optionGroups;
+  List<ProductOptionGroups>? optionGroups;
   int? isAutocook;
   int? isHalfAndHalf;
   int? isComboHalf;
@@ -123,7 +123,7 @@ class ProductDetails {
     categoryType = json['category_type'];
     typeIds = List.castFrom<dynamic, int>(json['type_ids']);
     optionGroups = List.from(json['option_groups'])
-        .map((e) => OptionGroups.fromJson(e))
+        .map((e) => ProductOptionGroups.fromJson(e))
         .toList();
     isAutocook = json['is_autocook'];
     isHalfAndHalf = json['is_half_and_half'];
@@ -250,8 +250,8 @@ class CategoryMultilevels {
   }
 }
 
-class OptionGroups {
-  OptionGroups({
+class ProductOptionGroups {
+  ProductOptionGroups({
     this.uuid,
     this.sku,
     this.name,
@@ -279,7 +279,7 @@ class OptionGroups {
   String? description;
   int? quantity;
 
-  OptionGroups.fromJson(Map<String, dynamic> json) {
+  ProductOptionGroups.fromJson(Map<String, dynamic> json) {
     uuid = json['uuid'];
     sku = json['sku'];
     name = json['name'];

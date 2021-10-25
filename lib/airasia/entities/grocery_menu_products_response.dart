@@ -7,7 +7,7 @@ class GroceryMenuProductsResponse {
 
   int? code;
   String? message;
-  List<GroceryMenuProducts>? data;
+  List<AAGroceryProducts>? data;
 
   GroceryMenuProductsResponse.fromJson(Map<String, dynamic> json) {
     code = json['code'];
@@ -15,8 +15,8 @@ class GroceryMenuProductsResponse {
     data = json['data'] == null
         ? null
         : List.from(json['data'])
-            .map((e) => GroceryMenuProducts.fromJson(e))
-            .toList();
+        .map((e) => AAGroceryProducts.fromJson(e))
+        .toList();
   }
 
   Map<String, dynamic> toJson() {
@@ -28,8 +28,8 @@ class GroceryMenuProductsResponse {
   }
 }
 
-class GroceryMenuProducts {
-  GroceryMenuProducts({
+class AAGroceryProducts {
+  AAGroceryProducts({
     this.uuid,
     this.name,
     this.lang,
@@ -111,7 +111,7 @@ class GroceryMenuProducts {
   List<String>? brandUuids;
   String? deeplink;
 
-  GroceryMenuProducts.fromJson(Map<String, dynamic> json) {
+  AAGroceryProducts.fromJson(Map<String, dynamic> json) {
     uuid = json['uuid'];
     name = json['name'];
     lang = json['lang'];
@@ -132,7 +132,7 @@ class GroceryMenuProducts {
     tax = json['tax'];
     taxRate = json['tax_rate'];
     category =
-        json['category'] == null ? null : Category.fromJson(json['category']);
+    json['category'] == null ? null : Category.fromJson(json['category']);
     parentCategory = json['parent_category'] == null
         ? null
         : ParentCategory.fromJson(json['parent_category']);
@@ -142,13 +142,13 @@ class GroceryMenuProducts {
     optionGroups = json['option_groups'] == null
         ? null
         : List.from(json['option_groups'])
-            .map((e) => OptionGroups.fromJson(e))
-            .toList();
+        .map((e) => OptionGroups.fromJson(e))
+        .toList();
     isAutocook = json['is_autocook'];
     isHalfAndHalf = json['is_half_and_half'];
     isComboHalf = json['is_combo_half'];
     toppings =
-        json['toppings'] == null ? null : Toppings.fromJson(json['toppings']);
+    json['toppings'] == null ? null : Toppings.fromJson(json['toppings']);
     isMenuPointFreeDelivery = json['is_menu_point_free_delivery'];
     currencyUuid = json['currency_uuid'];
     store = json['store'] == null ? null : Store.fromJson(json['store']);
@@ -288,8 +288,8 @@ class OptionGroups {
   int? sequence;
   String? shortName;
   String? thumbnail;
-  int? price;
-  int? subPrice;
+  double? price;
+  double? subPrice;
   int? tax;
   int? taxRate;
   String? description;
@@ -303,8 +303,8 @@ class OptionGroups {
     sequence = json['sequence'];
     shortName = json['short_name'];
     thumbnail = json['thumbnail'];
-    price = json['price'];
-    subPrice = json['sub_price'];
+    price = (json['price'] as num?)?.toDouble();
+    subPrice = (json['sub_price'] as num?)?.toDouble();
     tax = json['tax'];
     taxRate = json['tax_rate'];
     description = json['description'];
