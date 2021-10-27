@@ -41,7 +41,8 @@ class _MyHomePageState extends State<MyHomePage> {
    // var testing2 =   await AirAsiaGroceryRepository().getStoreProducts(storeUuids: '0eb81e95-3448-11eb-b563-0674d6a6f416');
     // var testing2 =   await AirAsiaGroceryRepository().getProductDetails(productSlug: 'test-prod-3', storeUuids: '0eb81e95-3448-11eb-b563-0674d6a6f416');
     // var testing2 =   await AirAsiaGroceryRepository().getProductTags(productUuid: '5cab64a5-25b2-4308-b965-14de1d847b5a');
-    var testing2 =   await AirAsiaGroceryRepository().getSimilarProducts(productUuid: '5cab64a5-25b2-4308-b965-14de1d847b5a');
+    // var testing2 =   await AirAsiaGroceryRepository().getSimilarProducts(productUuid: '5cab64a5-25b2-4308-b965-14de1d847b5a');
+    var testing2 =   await AirAsiaGroceryRepository().searchProduct(keywords: ['test']);
 
   }
 
