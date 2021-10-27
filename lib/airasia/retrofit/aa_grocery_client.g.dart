@@ -22,7 +22,7 @@ class _AAGroceryClient implements AAGroceryClient {
         _setStreamType<GroceryTagResponse>(
             Options(method: 'GET', headers: <String, dynamic>{}, extra: _extra)
                 .compose(_dio.options, '/menu/v1/tags',
-                    queryParameters: queryParameters, data: _data)
+                queryParameters: queryParameters, data: _data)
                 .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = GroceryTagResponse.fromJson(_result.data!);
     return value;
@@ -31,24 +31,32 @@ class _AAGroceryClient implements AAGroceryClient {
   @override
   Future<dynamic> getProductsCount(
       {categoryTagUuid,
-      categoryUuid,
-      typeId = 1,
-      multipleCategory,
-      alcohol}) async {
+        categoryUuid,
+        typeId = 1,
+        multipleCategory,
+        alcohol,
+        key,
+        storeUuids,
+        minPrice,
+        maxPrice}) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'category_tag_uuid': categoryTagUuid,
       r'category_uuid': categoryUuid,
       r'type_id': typeId,
       r'multiple_category': multipleCategory,
-      r'alcohol': alcohol
+      r'alcohol': alcohol,
+      r'key': key,
+      r'store_uuids': storeUuids,
+      r'min_price': minPrice,
+      r'max_price': maxPrice
     };
     queryParameters.removeWhere((k, v) => v == null);
     final _data = <String, dynamic>{};
     final _result = await _dio.fetch(_setStreamType<dynamic>(
         Options(method: 'GET', headers: <String, dynamic>{}, extra: _extra)
             .compose(_dio.options, '/menu/v1/products-count',
-                queryParameters: queryParameters, data: _data)
+            queryParameters: queryParameters, data: _data)
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = _result.data;
     return value;
@@ -57,14 +65,14 @@ class _AAGroceryClient implements AAGroceryClient {
   @override
   Future<GroceryMenuProductsResponse> getMenuProducts(
       {categoryTagUuid,
-      categoryUuid,
-      tagCarouselUuid,
-      typeId = 1,
-      limit = 20,
-      page = 1,
-      multipleCategory,
-      alcohol,
-      storeUuids}) async {
+        categoryUuid,
+        tagCarouselUuid,
+        typeId = 1,
+        limit = 20,
+        page = 1,
+        multipleCategory,
+        alcohol,
+        storeUuids}) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'category_tag_uuid': categoryTagUuid,
@@ -83,7 +91,7 @@ class _AAGroceryClient implements AAGroceryClient {
         _setStreamType<GroceryMenuProductsResponse>(
             Options(method: 'GET', headers: <String, dynamic>{}, extra: _extra)
                 .compose(_dio.options, '/menu/v1/products-aa',
-                    queryParameters: queryParameters, data: _data)
+                queryParameters: queryParameters, data: _data)
                 .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = GroceryMenuProductsResponse.fromJson(_result.data!);
     return value;
@@ -92,11 +100,14 @@ class _AAGroceryClient implements AAGroceryClient {
   @override
   Future<GroceryProductFiltersResponse> getProductFilters(
       {categoryTagUuid,
-      categoryUuid,
-      required filters,
-      typeId = 1,
-      multipleCategory,
-      alcohol}) async {
+        categoryUuid,
+        required filters,
+        typeId = 1,
+        multipleCategory,
+        alcohol,
+        key,
+        minPrice,
+        maxPrice}) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'category_tag_uuid': categoryTagUuid,
@@ -104,7 +115,10 @@ class _AAGroceryClient implements AAGroceryClient {
       r'filters': filters,
       r'type_id': typeId,
       r'multiple_category': multipleCategory,
-      r'alcohol': alcohol
+      r'alcohol': alcohol,
+      r'key': key,
+      r'min_price': minPrice,
+      r'max_price': maxPrice,
     };
     queryParameters.removeWhere((k, v) => v == null);
     final _data = <String, dynamic>{};
@@ -112,7 +126,7 @@ class _AAGroceryClient implements AAGroceryClient {
         _setStreamType<GroceryProductFiltersResponse>(
             Options(method: 'GET', headers: <String, dynamic>{}, extra: _extra)
                 .compose(_dio.options, '/menu/v1/products-filters',
-                    queryParameters: queryParameters, data: _data)
+                queryParameters: queryParameters, data: _data)
                 .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = GroceryProductFiltersResponse.fromJson(_result.data!);
     return value;
@@ -127,7 +141,7 @@ class _AAGroceryClient implements AAGroceryClient {
         _setStreamType<StoreDetailsResponse>(
             Options(method: 'GET', headers: <String, dynamic>{}, extra: _extra)
                 .compose(_dio.options, '/store/v1/store/$storeSlug',
-                    queryParameters: queryParameters, data: _data)
+                queryParameters: queryParameters, data: _data)
                 .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = StoreDetailsResponse.fromJson(_result.data!);
     return value;
@@ -150,7 +164,7 @@ class _AAGroceryClient implements AAGroceryClient {
         _setStreamType<StoreProductsResponse>(
             Options(method: 'GET', headers: <String, dynamic>{}, extra: _extra)
                 .compose(_dio.options, '/menu/v1/products',
-                    queryParameters: queryParameters, data: _data)
+                queryParameters: queryParameters, data: _data)
                 .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = StoreProductsResponse.fromJson(_result.data!);
     return value;
@@ -168,10 +182,10 @@ class _AAGroceryClient implements AAGroceryClient {
     final _data = <String, dynamic>{};
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<ProductDetailsResponse>(Options(
-                method: 'GET', headers: <String, dynamic>{}, extra: _extra)
+            method: 'GET', headers: <String, dynamic>{}, extra: _extra)
             .compose(
-                _dio.options, '/menu/v1/product-detail-by-slug/$productSlug',
-                queryParameters: queryParameters, data: _data)
+            _dio.options, '/menu/v1/product-detail-by-slug/$productSlug',
+            queryParameters: queryParameters, data: _data)
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = ProductDetailsResponse.fromJson(_result.data!);
     return value;
@@ -193,7 +207,7 @@ class _AAGroceryClient implements AAGroceryClient {
         _setStreamType<SimilarProductsResponse>(
             Options(method: 'GET', headers: <String, dynamic>{}, extra: _extra)
                 .compose(_dio.options, '/menu/v1/similar',
-                    queryParameters: queryParameters, data: _data)
+                queryParameters: queryParameters, data: _data)
                 .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = SimilarProductsResponse.fromJson(_result.data!);
     return value;
@@ -207,20 +221,26 @@ class _AAGroceryClient implements AAGroceryClient {
     final _result = await _dio.fetch(_setStreamType<dynamic>(
         Options(method: 'GET', headers: <String, dynamic>{}, extra: _extra)
             .compose(_dio.options, '/menu/v1/tags-by-product/$productUuid',
-                queryParameters: queryParameters, data: _data)
+            queryParameters: queryParameters, data: _data)
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = _result.data;
     return value;
   }
 
   @override
-  Future<GroceryMenuProductsResponse> searchProduct(
-      {required key,
-      limit = 20,
-      page = 1,
-      typeId = 1,
-      multipleCategory,
-      alcohol}) async {
+  Future<GroceryMenuProductsResponse> searchProduct({
+    required key,
+    limit = 20,
+    page = 1,
+    typeId = 1,
+    multipleCategory,
+    alcohol,
+    storeUuids,
+    minPrice,
+    maxPrice,
+    sortBy,
+    sortDirection,
+  }) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'key': key,
@@ -228,7 +248,12 @@ class _AAGroceryClient implements AAGroceryClient {
       r'page': page,
       r'type_id': typeId,
       r'multiple_category': multipleCategory,
-      r'alcohol': alcohol
+      r'alcohol': alcohol,
+      r'store_uuids': storeUuids,
+      r'min_price': minPrice,
+      r'max_price': maxPrice,
+      r'sort_by': sortBy,
+      r'sort_dir': sortDirection
     };
     queryParameters.removeWhere((k, v) => v == null);
     final _data = <String, dynamic>{};
@@ -236,7 +261,7 @@ class _AAGroceryClient implements AAGroceryClient {
         _setStreamType<GroceryMenuProductsResponse>(
             Options(method: 'GET', headers: <String, dynamic>{}, extra: _extra)
                 .compose(_dio.options, '/menu/v1/products-aa',
-                    queryParameters: queryParameters, data: _data)
+                queryParameters: queryParameters, data: _data)
                 .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = GroceryMenuProductsResponse.fromJson(_result.data!);
     return value;

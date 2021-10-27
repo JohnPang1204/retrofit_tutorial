@@ -27,6 +27,10 @@ abstract class AAGroceryClient {
     @Query('type_id') int typeId = 1,
     @Query('multiple_category') int? multipleCategory,
     @Query('alcohol') int? alcohol,
+    @Query('store_uuids') String? storeUuids,
+    @Query('key') String? key,
+    @Query('min_price') String? minPrice,
+    @Query('max_price') String? maxPrice,
   });
 
   @GET("${AirAsiaGroceryApis.getProduct}")
@@ -50,7 +54,9 @@ abstract class AAGroceryClient {
     @Query('type_id') int typeId = 1,
     @Query('multiple_category') int? multipleCategory,
     @Query('alcohol') int? alcohol,
+    @Query('key') String? key,
   });
+
 
   @GET("${AirAsiaGroceryApis.getStoreDetails}")
   Future<StoreDetailsResponse> getStoreDetails(
@@ -88,7 +94,6 @@ abstract class AAGroceryClient {
     @Path() required String productUuid,
   });
 
-
   @GET("${AirAsiaGroceryApis.searchProduct}")
   Future<GroceryMenuProductsResponse> searchProduct({
     @Query('key') required String key,
@@ -97,5 +102,11 @@ abstract class AAGroceryClient {
     @Query('type_id') int typeId = 1,
     @Query('multiple_category') int? multipleCategory,
     @Query('alcohol') int? alcohol,
+    @Query('store_uuids') String? storeUuids,
+    @Query('min_price') String? minPrice,
+    @Query('max_price') String? maxPrice,
+    @Query('sort_by') String? sortBy,
+    @Query('sort_dir') int? sortDirection,
   });
+
 }

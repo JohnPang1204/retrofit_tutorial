@@ -42,6 +42,7 @@ class AirAsiaGroceryRepository {
     _groceryCarouselClient = AAGroceryCarouselClient(carouselDio);
   }
 
+
   Future<ResponseWrapper<List<GroceryCategoriesDetails>>>
   getCategoriesList() async {
     try {
@@ -54,10 +55,21 @@ class AirAsiaGroceryRepository {
   }
 
   Future<ResponseWrapper<int>> getProductsCount(
-      {String? categoryId, String? categoryTagUuid}) async {
+      {String? categoryId,
+        String? categoryTagUuid,
+        List<String>? stores,
+        List<String>? keywords,
+        String? minPrice,
+        String? maxPrice}) async {
     try {
       final response = await _groceryClient.getProductsCount(
-          categoryUuid: categoryId, categoryTagUuid: categoryTagUuid);
+        categoryUuid: categoryId,
+        categoryTagUuid: categoryTagUuid,
+        storeUuids: _storeListToString(stores),
+        key: _keywordListToString(keywords),
+        minPrice: minPrice,
+        maxPrice: maxPrice,
+      );
       var productCount = response['data'] as int;
       return ResponseWrapper()..setData(productCount);
     } on Exception catch (err) {
@@ -86,7 +98,9 @@ class AirAsiaGroceryRepository {
   }
 
   Future<ResponseWrapper<List<ProductFiltersData>?>> getProductFilters(
-      {String? categoryId, String? categoryTagUuid}) async {
+      {String? categoryId,
+        String? categoryTagUuid,
+        List<String>? keywords}) async {
     try {
       var filters = ['store_uuids', 'brand_uuids'];
       var joinedFilters = filters.join(',');
@@ -94,7 +108,8 @@ class AirAsiaGroceryRepository {
       final response = await _groceryClient.getProductFilters(
           categoryTagUuid: categoryTagUuid,
           categoryUuid: categoryId,
-          filters: joinedFilters);
+          filters: joinedFilters,
+          key: _keywordListToString(keywords));
       return ResponseWrapper()..setData(response.data);
     } on Exception catch (err) {
       return ResponseWrapper()..setException(AirAsiaError(err));
@@ -167,13 +182,40 @@ class AirAsiaGroceryRepository {
     }
   }
 
-  Future<ResponseWrapper<List<AAGroceryProducts>?>> searchProduct({required String keyword}) async {
+  Future<ResponseWrapper<List<AAGroceryProducts>?>> searchProduct({
+    required List<String> keywords,
+    List<String>? stores,
+    String? minPrice,
+    String? maxPrice,
+    int? page,
+    String? sortBy,
+    int? sortDirection,
+  }) async {
     try {
-      final response = await _groceryClient.searchProduct(key: keyword);
+      final response = await _groceryClient.searchProduct(
+          key: _keywordListToString(keywords)!,
+          storeUuids: _storeListToString(stores),
+          minPrice: minPrice,
+          maxPrice: maxPrice,
+          page: page,
+          sortBy: sortBy,
+          sortDirection: sortDirection);
       return ResponseWrapper()..setData(response.data);
     } on Exception catch (err) {
       return ResponseWrapper()..setException(AirAsiaError(err));
     }
+  }
+
+  String? _keywordListToString(List<String>? keywords) {
+    if (keywords == null || keywords.isEmpty) return null;
+
+    return keywords!.join('+');
+  }
+
+  String? _storeListToString(List<String>? stores) {
+    if (stores == null || stores.isEmpty) return null;
+
+    return stores!.join(',');
   }
 }
 
