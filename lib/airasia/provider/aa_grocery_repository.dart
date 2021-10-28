@@ -206,6 +206,20 @@ class AirAsiaGroceryRepository {
     }
   }
 
+
+  Future<ResponseWrapper<List<AAGroceryProducts>?>> getRecommendation({
+    required int code,
+  }) async {
+    try {
+      final response = await _groceryClient.getRecommendation(
+          code: code);
+      return ResponseWrapper()..setData(response.data);
+    } on Exception catch (err) {
+      return ResponseWrapper()..setException(AirAsiaError(err));
+    }
+  }
+
+
   String? _keywordListToString(List<String>? keywords) {
     if (keywords == null || keywords.isEmpty) return null;
 

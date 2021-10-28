@@ -109,4 +109,11 @@ abstract class AAGroceryClient {
     @Query('sort_dir') int? sortDirection,
   });
 
+  @GET("${AirAsiaGroceryApis.recommendation}")
+  Future<GroceryMenuProductsResponse> getRecommendation({
+    @Query('code') required int code,
+    @Query('limit') int limit = 10,
+    @Query('page') int? page = 1,
+    @Query('type_id') int typeId = 1,
+  });
 }
